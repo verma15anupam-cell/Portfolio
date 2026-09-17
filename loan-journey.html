@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loan Application Journey — Anupam Verma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF7;
+    --bg-panel:#F1EFE8;
+    --ink:#15140F;
+    --muted:#6E6A5F;
+    --accent:#14615A;
+    --accent-soft:#DCEAE6;
+    --line:#E4E1D6;
+    --max:1040px;
+    --read:1040px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img{max-width:100%;height:auto;display:block;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px;}
+  .read{max-width:var(--read);margin:0 auto;padding:0 32px;}
+  h1,h2,h3,h4,.display{font-family:'Space Grotesk', sans-serif;}
+
+  /* ---------- nav ---------- */
+  header.site{
+    position:sticky;top:0;z-index:30;
+    background:rgba(250,250,247,0.9);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0;}
+  .nav .mark{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;text-decoration:none;color:inherit;display:inline-flex;align-items:center;}
+  .nav .mark img{height:34px;width:auto;display:block;border-radius:50%;}
+  .nav .links{display:flex;gap:30px;font-size:0.9rem;color:var(--muted);}
+  .nav .links a{text-decoration:none;}
+  .nav .links a:hover{color:var(--ink);}
+
+  /* ---------- hero ---------- */
+  .hero{padding:48px 0 36px;border-bottom:1px solid var(--line);}
+  .kicker{
+    font-size:0.85rem;color:var(--accent);font-family:'Space Grotesk',sans-serif;
+    margin:0 0 18px;
+  }
+  .hero h1{
+    font-weight:600;font-size:clamp(1.9rem,4vw,3rem);line-height:1.18;
+    margin:0 0 22px;max-width:20ch;
+  }
+  .hero .dek{font-size:1.08rem;line-height:1.65;color:var(--muted);max-width:56ch;margin:0 0 40px;}
+
+  .meta-row{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+    border-top:1px solid var(--line);padding-top:28px;
+  }
+  .meta-row .m-label{font-size:0.78rem;color:var(--muted);margin:0 0 6px;}
+  .meta-row .m-value{font-size:0.95rem;font-weight:500;}
+
+  /* ---------- cover ---------- */
+  .cover{padding:28px 0;}
+  .cover img{width:100%;border:1px solid var(--line);}
+  figcaption, .cap{
+    font-size:0.82rem;color:var(--muted);margin-top:10px;text-align:center;
+  }
+
+  /* ---------- narrative ---------- */
+  .section{padding:36px 0;}
+  .section h2{font-size:1.5rem;font-weight:600;margin:0 0 20px;}
+  .section h3{font-size:1.15rem;font-weight:600;margin:32px 0 14px;}
+  .section h4{font-size:1rem;font-weight:600;margin:24px 0 10px;color:var(--accent);}
+  .section p{font-size:1rem;line-height:1.75;color:var(--ink);margin:0 0 18px;max-width:70ch;}
+  .section h2:first-child, .section h3:first-child{margin-top:0;}
+
+  /* first section: heading-to-paragraph = 36px, gap between sub-sections > 36px */
+  .intro-block h2{margin:56px 0 36px;}
+  .intro-block h2:first-child{margin-top:0;}
+  .intro-block ul{margin-top:0;}
+  .section p.muted{color:var(--muted);}
+  .section ul{padding-left:20px;margin:0 0 20px;}
+  .section ul li{font-size:1rem;line-height:1.75;margin-bottom:8px;}
+  .section ol{padding-left:20px;margin:0 0 20px;}
+  .section ol li{font-size:1rem;line-height:1.75;margin-bottom:8px;}
+  .section a.inline-link{color:var(--accent);border-bottom:1px solid var(--accent-soft);}
+  .section a.inline-link:hover{border-color:var(--accent);}
+
+  .divider{border-top:1px solid var(--line);}
+
+  .figure{padding:20px 0;}
+  .figure img{width:100%;border:1px solid var(--line);}
+  .figure.wide{max-width:var(--max);margin:0 auto;padding:36px 32px;}
+  /* when an image directly follows/precedes a text section, don't double the padding */
+  .section + .figure.wide{padding-top:12px;}
+  .figure.wide + .section{padding-top:0;}
+
+  .stat-strip{
+    display:flex;gap:0;border:1px solid var(--line);margin:36px 0;
+  }
+  .stat-strip .stat{flex:1;padding:24px 22px;border-right:1px solid var(--line);}
+  .stat-strip .stat:last-child{border-right:none;}
+  .stat-strip .num{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:700;color:var(--accent);}
+  .stat-strip .label{font-size:0.82rem;color:var(--muted);margin-top:4px;}
+
+  .callout{
+    background:var(--bg-panel);border-left:3px solid var(--accent);
+    padding:18px 22px;margin:28px 0;font-size:0.98rem;color:var(--ink);
+  }
+
+  .step-tag{
+    display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;
+    color:var(--accent);border:1px solid var(--accent-soft);padding:4px 10px;
+    margin-bottom:12px;
+  }
+
+  /* ---------- research photo + quote ---------- */
+  .research-row{
+    display:grid;grid-template-columns:1.15fr 0.85fr;gap:24px;
+    align-items:stretch;margin:8px 0 32px;
+  }
+  .research-row img{width:100%;height:100%;object-fit:cover;border:1px solid var(--line);}
+  .quote-panel{
+    background:var(--ink);color:var(--bg);padding:36px 32px;
+    display:flex;flex-direction:column;justify-content:center;position:relative;
+  }
+  .quote-panel .qmark{
+    font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:700;
+    color:var(--accent-soft);line-height:1;margin-bottom:8px;opacity:0.8;
+  }
+  .quote-panel p{
+    font-family:'Space Grotesk',sans-serif;font-size:1.2rem;
+    line-height:1.45;margin:0;font-weight:500;color:var(--bg);
+  }
+
+  /* ---------- icon tiles ---------- */
+  .icon-tile{
+    width:58px;height:58px;border-radius:50%;background:var(--accent-soft);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 14px;
+    flex:0 0 auto;
+  }
+  .icon-tile svg{width:26px;height:26px;}
+  .icon-tile svg *{stroke:var(--accent);}
+  .icon-tile.sq{border-radius:14px;background:#fff;border:1.5px solid var(--accent-soft);}
+
+  /* ---------- process steps ---------- */
+  .process-steps{display:flex;align-items:flex-start;margin:8px 0 32px;}
+  .process-step{flex:1;text-align:center;padding:0 16px;}
+  .process-step p{font-size:0.9rem;color:var(--muted);margin:0;line-height:1.5;}
+  .process-arrow{flex:0 0 auto;padding-top:20px;color:var(--line);font-size:1.4rem;}
+
+  /* ---------- where the process breaks ---------- */
+  .break-panel{border:1px solid var(--line);background:var(--bg-panel);padding:32px 28px;margin:0 0 32px;}
+  .break-panel .break-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;margin:0 0 34px;}
+
+  .break-line-flow{display:flex;align-items:center;gap:0;}
+  .break-line-flow .icon-tile{background:#fff;border:1.5px solid var(--accent);}
+  .break-line-flow .rail{flex:1;height:2px;background:linear-gradient(to right, var(--accent), var(--line) 40%, var(--line) 60%, var(--muted));position:relative;}
+  .break-line-flow .rail .mid-icon{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:40px;height:40px;border-radius:50%;background:#fff;border:1.5px solid var(--accent);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .break-line-flow .rail .mid-icon svg{width:18px;height:18px;}
+  .break-line-flow .rail .mid-icon svg *{stroke:var(--accent);}
+  .break-caption{
+    text-align:center;font-size:1.08rem;color:var(--ink);margin-top:30px;
+    font-family:'Space Grotesk',sans-serif;font-weight:500;
+  }
+
+  .break-flow{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding:42px 4px 6px;}
+  .break-node{flex:1;min-width:110px;text-align:center;position:relative;}
+  .break-node .tag{
+    position:absolute;top:-34px;left:50%;transform:translateX(-50%);
+    font-size:0.68rem;color:var(--accent);background:#fff;border:1px solid var(--accent-soft);
+    padding:3px 9px;white-space:nowrap;border-radius:100px;
+  }
+  .break-node p{font-size:0.78rem;color:var(--muted);margin:0;line-height:1.4;}
+  .break-line{flex:0 0 22px;height:1.5px;background:var(--line);margin-top:29px;}
+
+  /* ---------- problems / impact grid ---------- */
+  .pi-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:0 0 8px;}
+  .img-pair{
+    display:flex;align-items:stretch;gap:0;
+    background:#fff;border:1px solid var(--line);
+    padding:28px;height:460px;
+  }
+  .img-pair img{
+    flex:1 1 0;width:50%;height:100%;
+    object-fit:contain;border:none;background:#fff;
+  }
+  .img-pair figcaption{font-size:0.82rem;color:var(--muted);margin-top:10px;text-align:center;}
+  .pi-col{border:1px solid var(--line);padding:28px 26px;}
+  .pi-col h4{margin:0 0 20px;font-size:1rem;color:var(--ink);}
+  .pi-item{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start;}
+  .pi-item:last-child{margin-bottom:0;}
+  .pi-item .icon-tile{width:36px;height:36px;margin:0;border-radius:10px;}
+  .pi-item .icon-tile svg{width:18px;height:18px;}
+  .pi-item .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:8px;flex:0 0 auto;}
+  .pi-item p{font-size:0.92rem;line-height:1.55;color:var(--ink);margin:0;}
+
+  /* ---------- prototype cta ---------- */
+  .proto-cta{
+    background:var(--ink);color:var(--bg);padding:44px 0;text-align:center;
+  }
+  .proto-cta h3{color:var(--bg);margin:0 0 16px;font-size:1.3rem;}
+  .proto-cta a.btn{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--accent);color:#fff;font-size:0.95rem;
+    padding:12px 22px;text-decoration:none;font-family:'Space Grotesk',sans-serif;
+  }
+
+  footer.credit{
+    background:var(--ink);color:#8E8B80;font-size:0.8rem;
+    border-top:1px solid #2A2920;
+  }
+  footer.credit .wrap{padding:22px 32px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  footer.credit a{color:#B9B6AC;text-decoration:none;}
+  footer.credit a:hover{color:var(--accent-soft);}
+
+  @media (max-width:760px){
+    .meta-row{grid-template-columns:repeat(2,1fr);row-gap:20px;}
+    .stat-strip{flex-direction:column;}
+    .stat-strip .stat{border-right:none;border-bottom:1px solid var(--line);}
+    .stat-strip .stat:last-child{border-bottom:none;}
+    .nav .links{display:none;}
+    .research-row{grid-template-columns:1fr;}
+    .process-steps{flex-direction:column;gap:20px;}
+    .process-arrow{display:none;}
+    .pi-grid{grid-template-columns:1fr;}
+    .img-pair{flex-direction:column;height:auto;gap:20px;}
+    .img-pair img{width:100%;height:220px;}
+    .break-flow{flex-direction:column;align-items:stretch;}
+    .break-line{display:none;}
+    .break-node{margin-bottom:18px;}
+    .break-node .tag{position:static;display:inline-block;transform:none;margin-bottom:8px;}
+  }
+</style>
+  <link rel="icon" type="image/png" href="data:image/png;base64,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">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="mark" href="index.html"><img src="loan-journey-assets/lj-00.png" width="118" height="118" alt="Anupam Verma"></a>
+    <nav class="links">
+      <a href="index.html#work">Work</a>
+      <a href="Anupam-Verma-Resume.pdf" target="_blank" rel="noopener">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <p class="kicker">GyanDhan · Case study</p>
+  <h1>Loan Application Journey — Efficient, Faster and Reliable</h1>
+  <p class="dek">Designed a digital Auto Journey that reduced application
+    time by 50% by eliminating manual back-and-forth.</p>
+
+  <div class="meta-row">
+    <div>
+      <p class="m-label">Team</p>
+      <p class="m-value">1 UX/UI Designer, 1 PM, 1 APM, 1 Developer</p>
+    </div>
+    <div>
+      <p class="m-label">Duration</p>
+      <p class="m-value">2 Months</p>
+    </div>
+    <div>
+      <p class="m-label">My role</p>
+      <p class="m-value">UI Designer, UX Designer, Researcher, Team Collaborator</p>
+    </div>
+    <div>
+      <p class="m-label">Credit</p>
+      <p class="m-value">GyanDhan</p>
+    </div>
+  </div>
+</section>
+
+<figure class="cover wrap">
+  <img src="loan-journey-assets/lj-01.jpg" width="2000" height="1132" alt="Loan journey case study cover">
+</figure>
+
+<article class="section read intro-block">
+  <h2>How it started</h2>
+  <p>Right now, getting a loan means lots of back-and-forth with an Expert
+    Loan Consultant — sharing details, uploading docs, waiting for checks,
+    and sometimes redoing it all. It's a bit of a manual maze!</p>
+  <p>We're flipping the script: users will fill out info and upload
+    documents themselves, and voilà — the app zooms straight to the Bank
+    WIP stage automatically. Smooth, simple, and totally DIY!</p>
+
+  <h2>Project overview</h2>
+  <p>The education loan journey today feels like a manual obstacle
+    course — constant back-and-forth with consultants, repeated document
+    sharing, long wait times, and frequent rework. Instead of a smooth
+    digital flow, users navigate a fragmented process that slows them
+    down, increases dependency on human support, and leads to avoidable
+    drop-offs. The system isn't scaling with user expectations for a
+    simple, self-serve loan experience.</p>
+
+  <h2>Tentative impact</h2>
+  <ul>
+    <li>Reduced ELC bandwidth usage → increased scale</li>
+    <li>Faster average TAT from LE to WIP</li>
+    <li>Consistent experience, even during off-hours</li>
+    <li>Stronger case for tech-led journey when showcasing to partners</li>
+    <li>Measurable improvement in ops accuracy due to fewer manual touchpoints</li>
+  </ul>
+</article>
+
+<div class="divider"></div>
+
+<article class="section read">
+  <p class="kicker">Design process</p>
+  <h2>We wanted to digitize the old manual journey, so we followed a few steps</h2>
+</article>
+
+<article class="read">
+  <span class="step-tag" style="margin-left:32px;">01</span>
+  <h3 style="padding:0 32px;">Talk to ELCs</h3>
+  <p style="padding:0 32px;">I spoke to ELCs to understand their process of talking to users.</p>
+</article>
+
+<article class="section wrap">
+  <div class="research-row">
+    <img src="loan-journey-assets/lj-02.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Observing an Expert Loan Consultant on a live user call">
+    <div class="quote-panel">
+      <span class="qmark">"</span>
+      <p>They don't just ask questions- they educate users too.</p>
+    </div>
+  </div>
+
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="8" r="3" stroke-width="1.6"/>
+          <path d="M4.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="17.5" cy="16.5" r="4" stroke-width="1.6"/>
+          <path d="M20.3 19.3L22 21" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p>Understand user background &amp; goals</p>
+    </div>
+    <div class="process-arrow">→</div>
+    <div class="process-step">
+      <div class="icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 8L12 4l10 4-10 4-10-4Z" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M6 10.5V15c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M20.5 9v5" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p>Explain loan, university &amp; process details</p>
+    </div>
+    <div class="process-arrow">→</div>
+    <div class="process-step">
+      <div class="icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="5" width="16" height="15" rx="2" stroke-width="1.6"/>
+          <path d="M4 9.5h16" stroke-width="1.6"/>
+          <path d="M8 3.5v3M16 3.5v3" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M8 15l2.6 2.2 4.4-5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <p>Guide users on next steps</p>
+    </div>
+  </div>
+
+  <div class="break-panel">
+    <p class="break-title">Where the process breaks</p>
+    <div class="break-line-flow">
+      <div class="icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="8" r="3.4" stroke-width="1.6"/>
+          <path d="M5 20c0-3.6 3-6.2 7-6.2s7 2.6 7 6.2" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="rail">
+        <div class="mid-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4.5c1.2 2.8 2.6 4.9 4.4 6.8 1.9 1.8 4 3.2 6.8 4.4l2-2c.4-.4 1-.5 1.5-.3l3 1.2c.6.3 1 .9.9 1.6l-.4 2.6c-.1.7-.7 1.2-1.4 1.2C13.7 20 4 10.3 4 2.3c0-.7.5-1.3 1.2-1.4l2.6-.4c.7-.1 1.3.3 1.6.9l1.2 3c.2.5.1 1.1-.3 1.5l-1.3 1.6Z" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="5" width="16" height="15" rx="2" stroke-width="1.6"/>
+          <path d="M4 9.5h16" stroke-width="1.6"/>
+          <path d="M8 3.5v3M16 3.5v3" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M8 15l2.6 2.2 4.4-5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <p class="break-caption">Calls don't always end in closure.</p>
+  </div>
+
+  <div class="pi-grid">
+    <div class="pi-col">
+      <h4>Problems of ELCs</h4>
+      <div class="pi-item">
+        <div class="icon-tile">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="5" width="16" height="15" rx="2" stroke-width="1.6"/>
+            <path d="M4 9.5h16" stroke-width="1.6"/>
+            <path d="M8 3.5v3M16 3.5v3" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p>Users often have to wait for time slots that fit their schedules.</p>
+      </div>
+      <div class="pi-item">
+        <div class="icon-tile">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="3" width="12" height="17" rx="2" stroke-width="1.6"/>
+            <path d="M9 8h6M9 11.5h6M9 15h3.5" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p>When users can't provide all details in one call, ELCs spend extra time rescheduling follow-ups.</p>
+      </div>
+    </div>
+    <div class="pi-col">
+      <h4>What this leads to</h4>
+      <div class="pi-item"><span class="dot"></span><p>Longer resolution times</p></div>
+      <div class="pi-item"><span class="dot"></span><p>Repetitive conversations</p></div>
+      <div class="pi-item"><span class="dot"></span><p>Reduced efficiency for ELCs</p></div>
+    </div>
+  </div>
+</article>
+
+<article class="read">
+  <span class="step-tag" style="margin-left:32px;">02</span>
+  <h3 style="padding:0 32px;">Talk to Document Analysts</h3>
+  <p style="padding:0 32px;">I spoke to DAs to understand their process of analyzing the documents.</p>
+</article>
+
+<article class="section wrap">
+  <div class="quote-panel" style="margin-bottom:44px;">
+    <p>DAs manually verify, identify and validate every document users upload.</p>
+  </div>
+
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 20h10a2 2 0 0 0 2-2V8.8L14.5 4H9a2 2 0 0 0-2 2v3" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M14 4v4.5h4.5" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M5 15.5l2.2-2.2 2.2 2.2M7.2 13.3V20" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <p>Ask students to upload document</p>
+    </div>
+    <div class="process-arrow">→</div>
+    <div class="process-step">
+      <div class="icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 20h10a2 2 0 0 0 2-2V8.8L14.5 4H9a2 2 0 0 0-2 2v14Z" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M9.5 12.5l2.8 2.2 4.2-5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <p>Check document checklist</p>
+    </div>
+    <div class="process-arrow">→</div>
+    <div class="process-step">
+      <div class="icon-tile">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="5.5" width="12" height="15" rx="2" stroke-width="1.6"/>
+          <circle cx="9" cy="10.5" r="1.8" stroke-width="1.6"/>
+          <path d="M5.5 17.5c.5-2 2-3 3.5-3s3 1 3.5 3" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M17 9l3 2.5-3 2.5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <p>Guide users to upload the disapproved and remaining document</p>
+    </div>
+  </div>
+
+  <div class="break-panel">
+    <p class="break-title">Where the process breaks</p>
+    <div class="break-flow">
+      <div class="break-node">
+        <div class="icon-tile sq">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="7.5" r="3.2" stroke-width="1.6"/>
+            <path d="M5.5 20c0-3.4 2.9-5.8 6.5-5.8s6.5 2.4 6.5 5.8" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p>ELC asks for documents</p>
+      </div>
+      <div class="break-line"></div>
+      <div class="break-node">
+        <div class="icon-tile sq">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 20h12a1.5 1.5 0 0 0 1.5-1.5V8.6L14.4 4H7.5A1.5 1.5 0 0 0 6 5.5V20Z" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M9.5 12.5l2.8 2.2 4.2-5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p>User uploads documents</p>
+      </div>
+      <div class="break-line"></div>
+      <div class="break-node">
+        <span class="tag">Waiting</span>
+        <div class="icon-tile sq">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3.5" y="4.5" width="11" height="14" rx="1.6" stroke-width="1.6"/>
+            <circle cx="17" cy="16" r="4.4" stroke-width="1.6"/>
+            <path d="M17 13.6V16l1.6 1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p>DA checks manually</p>
+      </div>
+      <div class="break-line"></div>
+      <div class="break-node">
+        <span class="tag">Manual check</span>
+        <div class="icon-tile sq">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="4" width="12" height="16" rx="1.6" stroke-width="1.6"/>
+            <path d="M9.5 8h3M9.5 11h3" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="17.5" cy="16" r="4.3" stroke-width="1.6"/>
+            <path d="M15.8 16l1.1 1.1 2-2.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p>Manual DA verification</p>
+      </div>
+      <div class="break-line"></div>
+      <div class="break-node">
+        <div class="icon-tile sq">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 10.5L12 5l8 5.5" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+            <path d="M5.5 10.5V19M9.5 10.5V19M14.5 10.5V19M18.5 10.5V19" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M4 19h16" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p>Application goes into Bank WIP</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pi-grid">
+    <div class="pi-col">
+      <h4>Problems of DAs</h4>
+      <div class="pi-item">
+        <div class="icon-tile">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 19V6.5A1.5 1.5 0 0 1 6.5 5H15l4 4v10a1.5 1.5 0 0 1-1.5 1.5H6.5A1.5 1.5 0 0 1 5 19Z" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M8 19V9a1.5 1.5 0 0 1 1.5-1.5" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+          </svg>
+        </div>
+        <p>Large number of documents.</p>
+      </div>
+      <div class="pi-item">
+        <div class="icon-tile">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="3" width="12" height="17" rx="2" stroke-width="1.6"/>
+            <path d="M12 8v4" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="12" cy="15" r="0.9" fill="var(--accent)" stroke="none"/>
+          </svg>
+        </div>
+        <p>Users submit documents with wrong or unclear names, forcing DAs to manually identify and verify each file.</p>
+      </div>
+    </div>
+    <div class="pi-col">
+      <h4>What this leads to</h4>
+      <div class="pi-item"><span class="dot"></span><p>Increased manual effort for DAs</p></div>
+      <div class="pi-item"><span class="dot"></span><p>Slower document validation</p></div>
+      <div class="pi-item"><span class="dot"></span><p>Delays before applications reach bank WIP stage</p></div>
+    </div>
+  </div>
+</article>
+
+<article class="section read">
+  <h3>Old journey</h3>
+  <p>Right now, getting a loan means lots of back-and-forth with an Expert
+    Loan Consultant — sharing details, uploading docs, waiting for checks,
+    and sometimes redoing it all. It's a bit of a manual maze!</p>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-03.jpg" width="2000" height="553" loading="lazy" decoding="async" alt="Old journey flow diagram">
+</figure>
+
+<article class="section read">
+  <h3>New journey (Version 1)</h3>
+  <p class="muted">Automating the ELC call</p>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-04.jpg" width="2000" height="672" loading="lazy" decoding="async" alt="Version 1 new journey flow">
+</figure>
+
+<article class="section read">
+  <h4>What we automated</h4>
+  <ul>
+    <li>Removed dependency on ELC calls for collecting user details</li>
+    <li>Asked users to share all required information upfront via the Auto Journey form</li>
+  </ul>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-05.jpg" width="2000" height="1307" loading="lazy" decoding="async" alt="Before and after comparison">
+</figure>
+
+<article class="section read">
+  <h4>1. Reduced visual weight of loan offers</h4>
+  <ul>
+    <li>Removed dependency on ELC calls for collecting user details</li>
+    <li>Asked users to share all required information upfront via the Auto Journey form</li>
+  </ul>
+  <h4>2. Introduced a clear self-initiation CTA</h4>
+  <ul>
+    <li>Added a prominent "Self-Initiated Journey" / "Smart Apply" CTA</li>
+    <li>Positioned directly below the loan offers</li>
+  </ul>
+  <h4>3. Simplified decision paths</h4>
+  <ul>
+    <li>Call scheduling moved to a secondary action</li>
+    <li>Primary emphasis on starting the journey</li>
+  </ul>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-06.jpg" width="2000" height="910" loading="lazy" decoding="async" alt="Self-initiation CTA banner">
+</figure>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-07.jpg" width="2000" height="958" loading="lazy" decoding="async" alt="Form screens">
+</figure>
+
+<article class="section read">
+  <h3>Form design</h3>
+  <p>While designing the form, we organized the information in a logical
+    sequence to ensure a smooth user flow. Basic details like name and
+    contact information are grouped under the Personal Information
+    section, while collateral details are placed under the Collateral
+    section. Below is the breakdown of the information:</p>
+  <p class="muted">This is the <a class="inline-link" href="https://ad7e8754-93b4-4a75-ab6c-f43d4a0c7696.filesusr.com/ugd/19176a_4d3cef00e7fe48a9a18b2aae19919896.pdf" target="_blank" rel="noopener">questionnaire</a> prepared by me and the PM.</p>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-08.jpg" width="2000" height="1073" loading="lazy" decoding="async" alt="Form structure segregation">
+</figure>
+
+<article class="section read">
+  <h4>1. Form structure</h4>
+  <ul>
+    <li>Progress bar at the top shows each step in the loan application process</li>
+    <li>Sub-sections break the form into manageable parts for easier navigation</li>
+    <li>When users opt for Auto Journey we ask information in buckets: Student Details, Collateral Details, Co-Applicant Details, and Output</li>
+    <li>Clearly labeled input fields collect required details like date of birth and parents' names</li>
+    <li>Prominent "Back" and "Next" buttons guide users through the form</li>
+  </ul>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-09.jpg" width="2000" height="968" loading="lazy" decoding="async" alt="Auto journey output display">
+</figure>
+
+<article class="section read">
+  <h4>1. Auto Journey output</h4>
+  <ul>
+    <li>View and compare multiple lenders side by side (interest rate, processing time, collateral requirement, repayment terms, etc.)</li>
+    <li>Select one or more preferred lenders (up to a defined limit)</li>
+    <li>Modify their selection later if needed</li>
+  </ul>
+</article>
+
+<div class="divider"></div>
+
+<article class="section read">
+  <h2>How users responded to Version 1</h2>
+</article>
+<figure class="figure wide">
+  <div class="img-pair">
+    <img src="loan-journey-assets/lj-10.jpg" width="1000" height="948" loading="lazy" decoding="async" alt="What we shipped in Auto Journey V1">
+    <img src="loan-journey-assets/lj-11.jpg" width="1000" height="827" loading="lazy" decoding="async" alt="Marketing funnel impact of V1">
+  </div>
+  <figcaption>Impact of V1</figcaption>
+</figure>
+
+<article class="section read">
+  <h3>What next (Version 2)</h3>
+  <p class="muted">Automate document upload and verification</p>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-12.jpg" width="2000" height="635" loading="lazy" decoding="async" alt="Version 2 flow">
+</figure>
+
+<article class="section read">
+  <p>To increase Auto Journey adoption, I introduced a prominent
+    top-of-page banner that nudges users to take the next step immediately
+    after viewing their loan offer.</p>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-13.jpg" width="2000" height="1420" loading="lazy" decoding="async" alt="Top of page banner">
+</figure>
+
+<article class="section read">
+  <p>After selection of lenders, users are redirected to the document
+    upload screen.</p>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-14.jpg" width="2000" height="1248" loading="lazy" decoding="async" alt="Document upload screens">
+</figure>
+
+<article class="section read">
+  <h4>Steps with system indicator</h4>
+  <ol>
+    <li>Select the required document type and upload the file</li>
+    <li>The uploaded document is being reviewed (AI or manual verification)</li>
+    <li>The document has been successfully verified</li>
+    <li>The system could not clearly identify or classify the document</li>
+    <li>The document was rejected due to quality or clarity issues</li>
+  </ol>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-15.jpg" width="2000" height="1240" loading="lazy" decoding="async" alt="Stages of document upload with status indicators">
+</figure>
+
+<article class="section read">
+  <p>Here, if a document is not recognized by AI but is good in quality,
+    it gives an option to the user to self-identify.</p>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-16.jpg" width="2000" height="2513" loading="lazy" decoding="async" alt="ELC submit application">
+</figure>
+
+<article class="section read">
+  <p>After document submission the user can submit the application, and
+    next the ELC will take action on the application.</p>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-17.jpg" width="1476" height="1098" loading="lazy" decoding="async" alt="Trade off speed vs accuracy">
+</figure>
+
+<article class="section read">
+  <div class="callout">Trade-off: Speed vs. Accuracy</div>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-18.jpg" width="2000" height="977" loading="lazy" decoding="async" alt="ELC dashboard">
+</figure>
+
+<article class="section read">
+  <h4>Status of application on ELC dashboard</h4>
+  <ol>
+    <li>Status of application and document status get updated on the ELC's
+      dashboard and they can submit this application. Once submitted, it
+      is logged into the bank account.</li>
+  </ol>
+  <h3>Rework on document upload screens</h3>
+</article>
+<figure class="figure wide">
+  <img src="loan-journey-assets/lj-19.jpg" width="2000" height="4879" loading="lazy" decoding="async" alt="Document upload card UI rework">
+</figure>
+
+<article class="section read">
+  <p>We chose Option 2 (Small Thumbnail) because users get a quick glance
+    of the document without having to tap the eye icon. If they want to
+    see the full image, they can still tap the eye icon to open the full
+    preview.</p>
+</article>
+
+<div class="proto-cta">
+  <h3>View the full prototype</h3>
+  <a class="btn" href="https://www.figma.com/proto/t70x7kOf0KsgWr4OvuRWJ1/Untitled?node-id=293-2981&viewport=-2694%2C209%2C0.25&t=MSq1lddkeE19FhVb-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=293%3A2981&page-id=293%3A2821" target="_blank" rel="noopener">Open in Figma →</a>
+</div>
+
+<footer class="credit">
+  <div class="wrap">
+    <span>© 2026 Anupam Verma</span>
+    <a href="index.html">← Back to work</a>
+  </div>
+</footer>
+
+</body>
+</html>
