@@ -176,7 +176,7 @@
 <article class="section read">
   <h2>Context</h2>
   <p>Beacon (our design system) had four different comparison-table patterns
-    scattered across the product, each hand-built and inconsistent —
+    scattered across the product, each hand-built and inconsistent:
     inconsistent number formatting, no clear rule for column width, and no
     plan for how any of them should behave on mobile. I owned defining a
     single, content-driven table system that could replace all of them and
@@ -190,7 +190,7 @@
 
   <h3>Audit in Figma</h3>
   <p>Started by pulling the existing tables into Figma, laying them side by
-    side to see the actual variance — alignment, weight, casing, and mobile
+    side to see the actual variance: alignment, weight, casing, and mobile
     treatment all differed table to table.</p>
 
   <h3>Reasoning with Claude, not just prompting</h3>
@@ -198,26 +198,26 @@
     partner to pressure-test logic: what should happen with only two
     columns, when both are text-heavy, when there are 8+ columns, when a
     column is a single digit next to a paragraph. Talking through each
-    scenario before building anything kept the system honest — the rule had
+    scenario before building anything kept the system honest: the rule had
     to survive real content shapes, not just the happy path.</p>
 
   <h3>From rule to prototype</h3>
   <p>Once the column-classification logic was settled (numeric / short /
     text, shrink-vs-flex, equal-share for competing text columns), Claude
-    built a live HTML lab with real Excel test data — six seeded scenarios
-    and four freeze-mode variants (basic, frozen column, frozen row, both) —
+    built a live HTML lab with real Excel test data: six seeded scenarios
+    and four freeze-mode variants (basic, frozen column, frozen row, both),
     so the logic could be checked against real numbers instead of imagined
     ones.</p>
 
   <h3>Iterating like a design review</h3>
   <p>I fed back the same way I would to a teammate: "why no columns," "make
-    it work on phone without cards," "there's dead space at the bottom" —
+    it work on phone without cards," "there's dead space at the bottom."
     Claude adjusted the underlying CSS and logic each time, and I re-checked
     the rendered result, closing the loop fast without leaving the
     browser.</p>
 
   <h3>Handoff</h3>
-  <p>The final deliverable wasn't a static mock — it was a governing spec
+  <p>The final deliverable wasn't a static mock: it was a governing spec
     (.md) covering column logic, row height, padding, and freeze behavior,
     plus a copy-paste component file with the CSS and classifier JS
     engineers could drop straight into the codebase.</p>
@@ -227,7 +227,7 @@
 
 <article class="section read">
   <h2>Try the prototype</h2>
-  <p>This is the actual Table Behavior Lab Claude built during the process —
+  <p>This is the actual Table Behavior Lab Claude built during the process,
     embedded below exactly as it runs, unmodified. Switch between the seeded
     scenarios, toggle freeze modes, and shrink the preview width to see the
     column logic and mobile behaviour resolve live.</p>
@@ -435,7 +435,7 @@ document.addEventListener(&#39;DOMContentLoaded&#39;, async function() {
 <article class="section read">
   <h2>My role vs. the tool</h2>
   <p>Figma stayed the space for auditing and comparing what existed. Claude
-    became the space for testing a rule against reality — building working,
+    became the space for testing a rule against reality, building working,
     data-driven mockups faster than I could hand-craft each edge case, so I
     could spend my time on judgment calls (what should freeze, what should
     stack, what's the actual brand color) instead of redrawing tables.</p>
@@ -446,7 +446,7 @@ document.addEventListener(&#39;DOMContentLoaded&#39;, async function() {
 <article class="section read">
   <h2>Outcome</h2>
   <p>One system instead of four. Column widths and mobile behavior now
-    derive automatically from content — no future table needs to be
+    derive automatically from content: no future table needs to be
     manually classified. Shipped as a spec doc plus a working component so
     engineering could implement without further design clarification.</p>
 

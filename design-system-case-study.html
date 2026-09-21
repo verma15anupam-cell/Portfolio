@@ -212,7 +212,7 @@
     component families across 41 pages, sitting alongside 85 Rails
     ViewComponents already in the codebase and 212 un-componentised partials
     still hand-built per page. Most of the 384 were the same component
-    re-drawn for a new screen — eleven separate card families, four
+    re-drawn for a new screen: eleven separate card families, four
     duplicate icon sets, a dozen numbered <em>Frame 12726…</em> fragments
     with no name a search would ever find. Every new page started by
     re-drawing what already existed, because nothing lived anywhere a second
@@ -224,8 +224,8 @@
 <article class="section read">
   <h2>Approach</h2>
   <p>Count what exists before you draw anything new. Three sources went into
-    one audit — the Figma kit, the live website, and both the merged and
-    unmerged branches of the Rails components — so every family got a
+    one audit (the Figma kit, the live website, and both the merged and
+    unmerged branches of the Rails components), so every family got a
     decision: consolidate, build, or skip with a reason.</p>
 
   <div class="approach-shots">
@@ -275,22 +275,22 @@
 
 <article class="section read">
   <h2>New in Claude</h2>
-  <p>131 components — well past what the Figma file shipped. Charts,
+  <p>131 components, well past what the Figma file shipped. Charts,
     overlays, and a full feedback set didn't exist in the kit at all; they're
     built here against real precedent, on the same tokens as everything
     migrated over.</p>
 
   <div class="step-card">
     <h4>Charts</h4>
-    <p>DonutChart, TrendChart, GaugeChart — no chart family existed in the kit.</p>
+    <p>DonutChart, TrendChart, GaugeChart: no chart family existed in the kit.</p>
   </div>
   <div class="step-card">
     <h4>Overlays</h4>
-    <p>Modal, Popup, AuthModal, FilterPanel — unspecced in Figma, built and documented here.</p>
+    <p>Modal, Popup, AuthModal, FilterPanel: unspecced in Figma, built and documented here.</p>
   </div>
   <div class="step-card">
     <h4>Feedback</h4>
-    <p>Toast, Skeleton, EmptyState, AlertBar — filled from the shared-partials backlog.</p>
+    <p>Toast, Skeleton, EmptyState, AlertBar: filled from the shared-partials backlog.</p>
   </div>
 </article>
 
@@ -299,8 +299,8 @@
 <article class="section read">
   <h2>Try the prototype</h2>
   <p>Rendered from the Claude-built library, not a screenshot. Switch
-    between input states, MasterCard presets, and the chart family below —
-    drag the sliders and trigger the overlays to see the components respond
+    between input states, MasterCard presets, and the chart family below.
+    Drag the sliders and trigger the overlays to see the components respond
     live.</p>
 
   <div class="lab-frame-wrap">
@@ -704,8 +704,8 @@ document.addEventListener(&#39;DOMContentLoaded&#39;, async function() {
   <p>Figma stayed the space for auditing and comparing what existed. Claude
     became the space for testing a component against real screens faster
     than I could hand-build each variant, so I could spend my time on
-    judgment calls — which eleven cards actually collapse into one, what a
-    chart family needs to cover, where a skip is the right call — instead of
+    judgment calls (which eleven cards actually collapse into one, what a
+    chart family needs to cover, where a skip is the right call) instead of
     redrawing components.</p>
 </article>
 
